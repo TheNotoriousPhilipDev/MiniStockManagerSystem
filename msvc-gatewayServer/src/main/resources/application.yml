@@ -1,0 +1,74 @@
+resilence4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 6
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 20s
+        permitted-number-of-calls-in-half-open-state: 4
+        slow-call-duration-threshold: 5s
+        slow-call-rate-threshold: 50
+    instances:
+      products:
+        baseConfig: default
+    timeLimiter:
+      configs:
+        default:
+          timeoutDuration: 6s
+      instances:
+        products:
+          baseConfig: default
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${IP_ADDR:http://127.0.0.1:9100}
+      client:
+        registration:
+          client-app:
+            provider: spring
+            client-id: gateway-app
+            client-secret: 12345
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8090/authorized
+            scope:
+              - openid
+              - profile
+            client-name: client-app
+        provider:
+          spring:
+            issuer-uri: ${IP_ADDR:http://127.0.0.1:9100}
+  cloud:
+    gateway:
+      routes:
+        - id: msvcOauth
+          uri: lb://msvcOauth
+          predicates:
+            - Path=/api/v1/security/**
+        - id: msvcUsers
+          uri: lb://msvcUsers
+          predicates:
+            - Path=/api/v1/users/**
+        - id: msvcItems # id of the microservice to be routed
+          uri: lb://msvcItems # route or uri to the microservice to go to, this route is load balanced
+          predicates: # conditions to be met before routing
+            - Path=/api/v1/items/** # path to be matched. Both filters and predicates can have multiple conditions, so we use the dash to list them all separately
+        #            - Header=token, 12345 if we do not send these values in the request it won't work
+        #            - Method=GET, POST
+        #            - Query=color
+        - id: msvcProducts
+          uri: lb://msvcProducts
+          predicates:
+            - Path=/api/v1/products/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: products
+                statusCodes: 500
+                fallbackUri: forward:/api/v1/items/5
+#filters:  filters are used to meet conditions before routing. They are used to modify the request or response. They can be used to add headers, modify the request, etc.
+#When deploying this, it is vital that this server (the gateway one) is the last to run, as it will route requests to the other microservices.
+# if the other microservices are not running, the gateway will not be able to route requests to them. and if we run this server first, it will not be able to route requests as there will be no microservices
+#available to map the routes to from the eureka server.

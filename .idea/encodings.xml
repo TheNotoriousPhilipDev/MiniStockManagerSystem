@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/configServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/configServer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eurekaServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eurekaServer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvc-gatewayServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvc-gatewayServer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcItems/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcItems/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcLibsCommons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcLibsCommons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcOauth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcOauth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcProducts/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcProducts/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcUsers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msvcUsers/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

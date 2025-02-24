@@ -1,0 +1,50 @@
+services:
+  eureka-server:
+    container_name: eureka-server
+    image: gomezaf/eureka:latest
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - springCloud
+  msvc-products:
+    container_name: msvc-products
+    image: gomezaf/products:latest-3
+    restart: always
+    ports:
+      - "8006:8006"
+    environment:
+        - MYSQL_URL=mysql
+        - EUREKA_URL=http://eureka-server:8761/eureka
+    networks:
+      - springCloud
+    depends_on:
+        - eureka-server
+        - mysql
+  msvc-items:
+    container_name: msvc-items
+    image: gomezaf/items:latest
+    restart: always
+    ports:
+      - "8005:8005"
+    environment:
+        - PRODUCTS_URL=http://msvcProducts/api/v1/products
+        - EUREKA_URL=http://eureka-server:8761/eureka
+    networks:
+      - springCloud
+    depends_on:
+      - eureka-server
+      - msvc-products
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.41
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+        - MYSQL_DATABASE=prod-db
+        - MYSQL_ROOT_PASSWORD=agomezpassword
+    networks:
+      - springCloud
+networks:
+  springCloud:
